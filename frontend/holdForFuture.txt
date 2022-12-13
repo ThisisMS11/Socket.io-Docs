@@ -1,0 +1,25 @@
+// const ShowBlogs=(index)=>{
+
+    //     // const [quill, setQuill] = useState();
+
+    //     console.log('index = ',index);
+    //     const editor = document.createElement("div");
+    //     editor.setAttribute("id", "blog"+index);
+
+    //     console.log('our dynamic editor is ', editor);
+
+    //     var q = new Quill(editor, {
+    //         theme: "snow", readOnly: true
+    //     })
+
+    //     q.setContents(userblogs[index].data.ops)
+
+    //     return editor;
+
+    //     // setQuill(q)
+    // }
+
+
+    {/* {userblogs.map((e, index) => 
+                ShowBlogs(index)
+            )} */}
