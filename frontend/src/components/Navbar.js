@@ -12,9 +12,10 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import userContext from './context/Users/userContext';
 import documentContext from './context/documents/documentContext';
+import LoadingBar from 'react-top-loading-bar'
 
 const Navbar = (props) => {
-    let {disaddblog,dissavedocument,disavatar}=props;
+    let { disaddblog, dissavedocument, disavatar } = props;
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -36,7 +37,7 @@ const Navbar = (props) => {
     // Fetching the user notes here.
     const context = useContext(userContext);
     const docContext = useContext(documentContext);
-    let { GetUserBlogs } = context;
+    let { GetUserBlogs, progress, setprogress } = context;
 
 
     const handleMyBlogs = async () => {
@@ -46,13 +47,13 @@ const Navbar = (props) => {
     }
 
     // ! for opening the blogcard form via modal
-    let { blogcardmodalref,check2 } = docContext;
+    let { blogcardmodalref, check2 } = docContext;
     const handlecreatecard = () => {
         console.log(check2)
         blogcardmodalref.current.click();
     }
 
-    const handleAllblogs=async ()=>{
+    const handleAllblogs = async () => {
         handleClose();
 
         await GetUserBlogs(localStorage.getItem('token'));
@@ -63,6 +64,8 @@ const Navbar = (props) => {
     return (
 
         <>
+
+
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static" color='secondary'>
                     <Toolbar>
@@ -82,15 +85,17 @@ const Navbar = (props) => {
                         </Typography>
 
                         <Link to='/addblog'>
-                            <Button color="inherit" sx={{ border: 'solid 2px white', marginX: 2 ,display:disaddblog}}>Add your blog</Button>
+                            <Button color="inherit" sx={{ border: 'solid 2px white', marginX: 2, display: disaddblog }}>Add your blog</Button>
                         </Link>
-                            <Button color="inherit" sx={{ border: 'solid 2px white', marginX: 2 ,display:dissavedocument}} onClick={handlecreatecard}>Create Card</Button>
+                        <Button color="inherit" sx={{ border: 'solid 2px white', marginX: 2, display: dissavedocument }} onClick={handlecreatecard}>Create Card</Button>
 
 
 
-                        <Avatar sx={{ bgcolor: 'grey', 
-                        cursor: 'pointer',
-                        "&:hover": { backgroundColor: "#AAA6AD" },display:disavatar }} aria-controls={open ? 'basic-menu' : undefined}
+                        <Avatar sx={{
+                            bgcolor: 'grey',
+                            cursor: 'pointer',
+                            "&:hover": { backgroundColor: "#AAA6AD" }, display: disavatar
+                        }} aria-controls={open ? 'basic-menu' : undefined}
                             aria-haspopup="true"
                             aria-expanded={open ? 'true' : undefined}
                             onClick={handleClick}
@@ -114,7 +119,14 @@ const Navbar = (props) => {
 
                     </Toolbar>
                 </AppBar>
+                <LoadingBar
+                    color='#0080ff'
+                    height={4}
+                    progress={100}
+                />
             </Box>
+
+
         </>
     )
 }

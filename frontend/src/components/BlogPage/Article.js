@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import Pbcard from './Pbcard';
-import inflationimage from '../../assets/Article page/inflation.jpg'
+// import inflationimage from '../../assets/Article page/inflation.jpg'
 
 
 const Article = () => {
@@ -44,7 +44,7 @@ const Article = () => {
 
           {/* sample image banner in articles */}
           <div className="text-center" id='article-image-banner '>
-            <img src={inflationimage} alt="image not found" className='h-80 mx-auto object-cover w-full' />
+            <img src="" alt="image not found" className='h-80 mx-auto object-cover w-full' />
           </div>
 
           <pre style={{ border: 'solid 2px green', height: 400 }}>

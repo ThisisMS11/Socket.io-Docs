@@ -1,5 +1,7 @@
 import documentContext from './documentContext';
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
+
+import userContext from '../Users/userContext';
 
 const DocumentState = (props) => {
     const [check2, setCheck2] = useState("Hello check2");
@@ -9,6 +11,10 @@ const DocumentState = (props) => {
     const [allcards, setAllcards] = useState([]);
 
     const [usercards, setUsercards] = useState([]);
+
+
+    const context = useContext(userContext);
+    const { loading, setLoading } = context;
 
     const giveid = (link) => {
         let id = '';
@@ -30,6 +36,7 @@ const DocumentState = (props) => {
 
     // ! For saving newly created blog's card.
     const SaveBlogCard = async (blogcardinfo) => {
+        setLoading(true);
         console.log('the information about our new user is  ', blogcardinfo);
         // setprogress(30)
         const response = await fetch("http://localhost:1983/api/blog/saveblogcard", {
@@ -51,11 +58,14 @@ const DocumentState = (props) => {
         // setprogress(80)
         const json = await response.json();
 
+        setLoading(false);
+
         return json;
     }
 
     //! for fetching all the cards present in the collection.
     const GetAllCards = async () => {
+        setLoading(true);
         const response = await fetch("http://localhost:1983/api/blog/fetchAllCards", {
             method: 'GET',
             headers: {
@@ -63,10 +73,12 @@ const DocumentState = (props) => {
             }
         }).then((response) => response.json())
             .then((data) => setAllcards(data));
+        setLoading(false);
     }
 
     // !Fetching only user cards
     const GetUserCards = async (authtoken) => {
+        setLoading(true);
         const response = await fetch("http://localhost:1983/api/blog/fetchUserBlogsCards", {
             method: 'GET',
             headers: {
@@ -75,10 +87,11 @@ const DocumentState = (props) => {
             }
         }).then((response) => response.json())
             .then((data) => setUsercards(data));
+        setLoading(false);
     }
 
     return (
-        <documentContext.Provider value={{ check2, blogcardmodalref, SaveBlogCard, GetAllCards, allcards, usercards, setUsercards, GetUserCards,giveid }}>
+        <documentContext.Provider value={{ check2, blogcardmodalref, SaveBlogCard, GetAllCards, allcards, usercards, setUsercards, GetUserCards, giveid ,loading, setLoading}}>
             {props.children}
         </documentContext.Provider>
     )

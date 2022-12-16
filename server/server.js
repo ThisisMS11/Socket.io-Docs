@@ -1,4 +1,6 @@
 const connectTomongo = require('./db');
+
+const path = require('path');
 // document model is imported here .
 
 const Document = require('./models/Document')
@@ -27,11 +29,11 @@ const defaultValue = ""
 io.on("connection", socket => {
 
 
-    socket.on('get-document', async (documentId,userID) => {
-        const document = await findorCreateDocument(documentId,userID)
+    socket.on('get-document', async (documentId, userID) => {
+        const document = await findorCreateDocument(documentId, userID)
         socket.join(documentId)
 
-        console.log('document.data = ',document.data)
+        console.log('document.data = ', document.data)
 
         socket.emit("load-document", document.data)
 
@@ -54,7 +56,7 @@ io.on("connection", socket => {
 })
 
 // Finding the document using id
-async function findorCreateDocument(id,userid) {
+async function findorCreateDocument(id, userid) {
     if (id == null) return
 
     const document = await Document.findById(id)
@@ -62,7 +64,7 @@ async function findorCreateDocument(id,userid) {
 
     // !this is the point where we would be sharing the userid 
 
-    return await Document.create({ _id: id, data: defaultValue,userID:userid});
+    return await Document.create({ _id: id, data: defaultValue, userID: userid });
 
 }
 
@@ -70,7 +72,14 @@ async function findorCreateDocument(id,userid) {
 // our apps routes are going to be here.
 
 app.use('/api/auth', require('./routes/auth.js'))
-app.use('/api/blog',require('./routes/blog'))
+app.use('/api/blog', require('./routes/blog'))
+
+// static files will be connected here
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+app.get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+})
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import Quill from 'quill'
 import "quill/dist/quill.snow.css"
 import "./styles.css"
@@ -8,6 +8,8 @@ import { useParams } from 'react-router-dom'
 import ImageResize from 'quill-image-resize-module-react';
 import BlogCardModal from './BlogCardModal'
 import Navbar from '../Navbar'
+import userContext from '../context/Users/userContext'
+import Spinner from '../Utility_Components/Spinner'
 
 
 const TextEditor = () => {
@@ -20,7 +22,11 @@ const TextEditor = () => {
 
     // console.log(documentId);
 
+    const context = useContext(userContext);
+    let { loading, setLoading } = context;
+
     useEffect(() => {
+        setLoading(true);
         const s = io("http://localhost:3002");
         setSocket(s);
 
@@ -38,6 +44,8 @@ const TextEditor = () => {
         })
 
         socket.emit('get-document', documentId, localStorage.getItem('userID'))
+
+        setLoading(false)
     }, [socket, quill, documentId])
 
     useEffect(() => {
@@ -144,9 +152,10 @@ const TextEditor = () => {
 
     return (
         <>
-            <Navbar disaddblog='none'/>
+            <Navbar disaddblog='none' />
+            {loading && <Spinner />}
 
-            <div className='container' ref={wrapperRef}></div>
+            <div className='container  border-red-400 mx-auto' ref={wrapperRef}></div>
 
 
             <BlogCardModal />

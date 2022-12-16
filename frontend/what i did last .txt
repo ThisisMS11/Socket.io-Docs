@@ -1,3 +1,16 @@
 1. I created the api for fetching specific user blogs. 
 2. I fetched  the blogs using fetch api in Myblog component and set the user blogs to a useState hook names userblogs.
 3. The display of user specific blogs is done.
+
+
+/* template for using spinner*/
+import Spinner from '../Utility_Components/Spinner';
+
+loading,setLoading
+
+setLoading(true);
+allgetAllcards();
+setLoading(false);
+
+
+{loading && <Spinner />}

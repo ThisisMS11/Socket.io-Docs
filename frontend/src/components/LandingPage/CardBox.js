@@ -4,11 +4,16 @@ import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router';
 import documentContext from '../context/documents/documentContext.js';
 import Navbar from '../Navbar';
+import Spinner from '../Utility_Components/Spinner';
+import userContext from '../context/Users/userContext.js';
 
 const CardBox = () => {
 
     const docContext = useContext(documentContext);
     let { GetAllCards, allcards, giveid } = docContext;
+
+    const context = useContext(userContext);
+    let { loading, setLoading } = context;
 
 
     const navigate = useNavigate();
@@ -24,12 +29,13 @@ const CardBox = () => {
         }
     }, [])
 
+    
     useEffect(() => {
         GetAllCards();
     }, [])
 
-    const showmethecards=()=>{
-        console.log('All the cards are listed below : ',allcards);
+    const showmethecards = () => {
+        console.log('All the cards are listed below : ', allcards);
     }
 
 
@@ -43,15 +49,16 @@ const CardBox = () => {
     return (
 
         <>
-            <Navbar dissavedocument={'none'}/>
+            {loading && <Spinner />}
+            <Navbar dissavedocument={'none'} />
             <Grid container spacing={2} sx={{ padding: '15px 0px' }}>
                 {/* iterating the cards here */}
 
                 {allcards.map((e, index) => {
                     return (<Grid item xl={3} xs={12} md={6} lg={4} sx={styleitem} key={index}>
                         <Card title={e.title} description={e.description}
-                        thumbnailurl={giveid(e.thumbnailurl)}
-                        tag={e.tag} blogid={e.blogID}/>
+                            thumbnailurl={giveid(e.thumbnailurl)}
+                            tag={e.tag} blogid={e.blogID} />
                     </Grid>)
                 })}
 

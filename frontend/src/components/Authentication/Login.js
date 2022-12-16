@@ -11,6 +11,8 @@ import userContext from '../context/Users/userContext';
 import documentContext from '../context/documents/documentContext';
 import Navbar from '../Navbar';
 
+import Spinner from '../Utility_Components/Spinner';
+
 const ModeToggle = () => {
     const { mode, setMode } = useColorScheme();
     const [mounted, setMounted] = React.useState(false);
@@ -52,7 +54,7 @@ export default function Login() {
 
 
     const context = useContext(userContext);
-    let { HandleLogin, GetUserInfo, GetUserBlogs } = context;
+    let { HandleLogin, GetUserInfo, GetUserBlogs ,loading} = context;
 
 
     const navigate = useNavigate();
@@ -76,11 +78,6 @@ export default function Login() {
 
             if (useridsetresult) {
                 console.log("User Id set successfully in localStorage. Thanks .")
-
-
-                //! trying to set the userblogs here only
-
-                // await GetUserBlogs(localStorage.getItem('token'));
             }
 
         }
@@ -89,11 +86,11 @@ export default function Login() {
             navigate('/login')
         }
 
-        // else condition can be here.
     }
 
     return (
         <>
+        {loading && <Spinner />}
         <Navbar dissavedocument='none' disaddblog='none' disavatar='none'/>
 
         <CssVarsProvider>
