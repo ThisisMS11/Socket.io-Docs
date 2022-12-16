@@ -74,12 +74,12 @@ async function findorCreateDocument(id, userid) {
 app.use('/api/auth', require('./routes/auth.js'))
 app.use('/api/blog', require('./routes/blog'))
 
-// static files will be connected here
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+// // static files will be connected here
+// app.use(express.static(path.join(__dirname, '../frontend/build')));
 
-app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
-})
+// app.get("*", function (req, res) {
+//     res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+// })
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
